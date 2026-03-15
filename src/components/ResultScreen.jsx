@@ -66,6 +66,26 @@ const ResultsScreen = ({ results, config, onRetry, onReset }) => {
           </div>
         </div>
 
+        {/* Question Breakdown */}
+{results.questionBreakdown?.length > 0 && (
+  <div className="breakdown-section">
+    <h3 className="breakdown-title">Question Breakdown</h3>
+    {results.questionBreakdown.map((q, i) => {
+      const scoreColor = q.score >= 80 ? "#22c55e" : q.score >= 60 ? "#f59e0b" : "#ef4444";
+      return (
+        <div key={i} className="breakdown-item">
+          <span className="breakdown-score" style={{ color: scoreColor, background: `${scoreColor}15` }}>
+            {q.score}
+          </span>
+          <div className="breakdown-text">
+            <p className="breakdown-q">Q{i + 1}: {q.question}</p>
+            <p className="breakdown-comment">{q.comment}</p>
+          </div>
+        </div>
+      );
+    })}
+  </div>
+)}
         {/* Actions */}
         <div className="results-actions">
           <button className="btn-secondary" onClick={onReset}>Try Another Company</button>
