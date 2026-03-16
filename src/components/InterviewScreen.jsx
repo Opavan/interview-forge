@@ -13,6 +13,7 @@ const InterviewScreen = ({ config, onFinish, onExit }) => {
   const [questionCount, setQuestionCount] = useState(0);
   const [history, setHistory] = useState([]);
   const [showCode, setShowCode] = useState(false);
+  const [isPaused, setIsPaused] = useState(false);
   const [code, setCode] = useState("// Write your solution here\n\n");
   const [codeLang, setCodeLang] = useState("javascript");
   const chatRef = useRef(null);
@@ -163,16 +164,28 @@ Analyze the full conversation carefully and return ONLY valid JSON:
         </div>
 
         <div className="header-right">
-          {isSpeaking && (
-            <button className="stop-speech-btn" onClick={cancelSpeech} title="Stop speaking">
-              <span className="soundwave-mini">
-                {[...Array(4)].map((_, i) => (
-                  <span key={i} className="wave-bar-mini" style={{ animationDelay: `${i * 0.1}s`, background: company.color }} />
-                ))}
-              </span>
-              Stop
-            </button>
-          )}
+         {isSpeaking && (
+  <button
+    className="stop-speech-btn"
+    onClick={() => {
+      if (isPaused) {
+        window.speechSynthesis.resume();
+        setIsPaused(false);
+      } else {
+        window.speechSynthesis.pause();
+        setIsPaused(true);
+      }
+    }}
+    title={isPaused ? "Resume" : "Pause"}
+  >
+    <span className="soundwave-mini">
+      {[...Array(4)].map((_, i) => (
+        <span key={i} className="wave-bar-mini" style={{ animationDelay: `${i * 0.1}s`, background: company.color }} />
+      ))}
+    </span>
+    {isPaused ? "▶ Resume" : "⏸ Pause"}
+  </button>
+)}
           <button className="exit-btn" onClick={handleExit}>✕ Exit</button>
         </div>
       </div>
@@ -271,7 +284,7 @@ Analyze the full conversation carefully and return ONLY valid JSON:
                   onClick={() => setShowCode(!showCode)}
                   title="Toggle code editor"
                 >
-                  💻
+                  
                 </button>
                 <button
                   className="input-btn send-btn"
