@@ -284,7 +284,7 @@ Analyze the full conversation carefully and return ONLY valid JSON:
                   onClick={() => setShowCode(!showCode)}
                   title="Toggle code editor"
                 >
-                  
+                  {"💻 "}
                 </button>
                 <button
                   className="input-btn send-btn"
