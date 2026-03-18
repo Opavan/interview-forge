@@ -1,6 +1,5 @@
 const express = require("express");
 const cors = require("cors");
-const path = require("path");
 const Groq = require("groq-sdk");
 
 require("dotenv").config();
@@ -9,11 +8,10 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-//  Groq setup
 const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
 
 app.get("/", (req, res) => {
-  res.json({ status: "Backend is running!" });
+  res.json({ status: "InterviewForge Backend Running!" });
 });
 
 app.post("/api/chat", async (req, res) => {
@@ -36,12 +34,12 @@ app.post("/api/chat", async (req, res) => {
           content: m.content,
         })),
       ],
-      max_tokens: 1000,
-      temperature: 0.8,
+      max_tokens: 1200,
+      temperature: 0.7,
     });
 
     const text = response.choices[0]?.message?.content || "";
-    console.log(" Success! Text length:", text.length);
+    console.log(" Success! Response length:", text.length);
     res.json({ text });
 
   } catch (err) {
@@ -51,6 +49,5 @@ app.post("/api/chat", async (req, res) => {
 });
 
 app.listen(5001, () => {
-  console.log(" Backend running on http://localhost:5001");
-  console.log(" Waiting for requests...");
+  console.log(" InterviewForge backend running on http://localhost:5001");
 });
